@@ -3,18 +3,11 @@ package xyz.isatimur.course.application.domain;
 
 import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import java.util.Set;
 
 /**
  * A Material.
@@ -52,20 +45,19 @@ public class Material implements Serializable {
     @Column(name = "cdn")
     private String cdn;
 
-    @ManyToOne
-    private Course course;
-
     @OneToOne
     @JoinColumn(unique = true)
     private ContentType contentType;
 
-    public Material(String title, String description, Long duration, Long companyId, String cdn, Course course, ContentType contentType) {
+    @ManyToMany
+    private Set<Course> courses = new HashSet<>();
+
+    public Material(String title, String description, Long duration, Long companyId, String cdn, ContentType contentType) {
         this.title = title;
         this.description = description;
         this.duration = duration;
         this.companyId = companyId;
         this.cdn = cdn;
-        this.course = course;
         this.contentType = contentType;
     }
 
@@ -145,19 +137,6 @@ public class Material implements Serializable {
 
     public void setCdn(String cdn) {
         this.cdn = cdn;
-    }
-
-    public Course getCourse() {
-        return course;
-    }
-
-    public Material course(Course course) {
-        this.course = course;
-        return this;
-    }
-
-    public void setCourse(Course course) {
-        this.course = course;
     }
 
     public ContentType getContentType() {
@@ -260,7 +239,7 @@ public class Material implements Serializable {
         }
 
         public Material build() {
-            return new Material( title, description, duration, companyId, cdn, course, contentType);
+            return new Material( title, description, duration, companyId, cdn,  contentType);
         }
 
         public String toString() {

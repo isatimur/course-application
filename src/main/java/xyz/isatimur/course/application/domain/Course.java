@@ -1,33 +1,21 @@
 package xyz.isatimur.course.application.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
 import java.util.Set;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import java.util.Objects;
 
 /**
  * A Course.
  */
+@Data
 @NoArgsConstructor
 @Entity
 @Table(name = "course_data_courses", uniqueConstraints = @UniqueConstraint(columnNames = "url"))
@@ -68,32 +56,32 @@ public class Course implements Serializable {
     @Column(name = "logo_url")
     private String logoUrl;
 
+    @ManyToOne
+    private Category category;
+
+    @ManyToOne
+    private Author author;
+
     @OneToOne
     @JoinColumn(unique = true)
     private Status status;
 
     @OneToOne
     @JoinColumn(unique = true)
-    private Category category;
+    private ContentType contentType;
 
-    @OneToOne
-    @JoinColumn(unique = true)
-    private Author author;
-
-    @OneToMany
+    @ManyToMany
     @JoinTable(name = "course_ref_course_built",
         joinColumns = @JoinColumn(name = "id_course", referencedColumnName = "id"),
         inverseJoinColumns = @JoinColumn(name = "id_source", referencedColumnName = "id"))
-    @JsonIgnore
-    private List<Material> materials = new ArrayList<>();
+    private Set<Material> materials = new HashSet<>();
 
-    @ManyToMany
     @JoinTable(name = "course_ref_courses_tags",
         joinColumns = @JoinColumn(name = "id_courses", referencedColumnName = "id"),
         inverseJoinColumns = @JoinColumn(name = "id_tags", referencedColumnName = "id"))
     private Set<Tag> tags = new HashSet<>();
 
-    public Course(String url, String title, String shortDescription, String description, Long duration, ZonedDateTime publishDate, BigDecimal price, String logoUrl, Status status, Category category, Author author, List<Material> materials, Set<Tag> tags) {
+    public Course(String url, String title, String shortDescription, String description, Long duration, ZonedDateTime publishDate, BigDecimal price, String logoUrl, Status status, Category category, Author author, Set<Material> materials, Set<Tag> tags) {
         this.url = url;
         this.title = title;
         this.shortDescription = shortDescription;
@@ -226,19 +214,6 @@ public class Course implements Serializable {
         this.logoUrl = logoUrl;
     }
 
-    public Status getStatus() {
-        return status;
-    }
-
-    public Course status(Status status) {
-        this.status = status;
-        return this;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
-    }
-
     public Category getCategory() {
         return category;
     }
@@ -265,28 +240,52 @@ public class Course implements Serializable {
         this.author = author;
     }
 
-    public List<Material> getMaterials() {
+    public Status getStatus() {
+        return status;
+    }
+
+    public Course status(Status status) {
+        this.status = status;
+        return this;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public ContentType getContentType() {
+        return contentType;
+    }
+
+    public Course contentType(ContentType contentType) {
+        this.contentType = contentType;
+        return this;
+    }
+
+    public void setContentType(ContentType contentType) {
+        this.contentType = contentType;
+    }
+
+    public Set<Material> getMaterials() {
         return materials;
     }
 
-    public Course materials(List<Material> materials) {
+    public Course materials(Set<Material> materials) {
         this.materials = materials;
         return this;
     }
 
     public Course addMaterial(Material material) {
         this.materials.add(material);
-        material.setCourse(this);
         return this;
     }
 
     public Course removeMaterial(Material material) {
         this.materials.remove(material);
-        material.setCourse(null);
         return this;
     }
 
-    public void setMaterials(List<Material> materials) {
+    public void setMaterials(Set<Material> materials) {
         this.materials = materials;
     }
 
@@ -364,7 +363,7 @@ public class Course implements Serializable {
         private Status status;
         private Category category;
         private Author author;
-        private List<Material> materials;
+        private Set<Material> materials;
         private Set<Tag> tags;
 
         CourseBuilder() {
@@ -430,7 +429,7 @@ public class Course implements Serializable {
             return this;
         }
 
-        public CourseBuilder materials(List<Material> materials) {
+        public CourseBuilder materials(Set<Material> materials) {
             this.materials = materials;
             return this;
         }

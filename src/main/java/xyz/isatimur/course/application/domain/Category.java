@@ -1,10 +1,12 @@
 package xyz.isatimur.course.application.domain;
 
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Objects;
 
 /**
@@ -36,6 +38,15 @@ public class Category implements Serializable {
         this.name = name;
     }
 
+    public Category(String name, Set<Course> categories) {
+        this.name = name;
+        this.categories = categories;
+    }
+
+    @OneToMany(mappedBy = "category")
+    @JsonIgnore
+    private Set<Course> categories = new HashSet<>();
+
     // jhipster-needle-entity-add-field - Jhipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -56,6 +67,31 @@ public class Category implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Set<Course> getCategories() {
+        return categories;
+    }
+
+    public Category categories(Set<Course> courses) {
+        this.categories = courses;
+        return this;
+    }
+
+    public Category addCategory(Course course) {
+        this.categories.add(course);
+        course.setCategory(this);
+        return this;
+    }
+
+    public Category removeCategory(Course course) {
+        this.categories.remove(course);
+        course.setCategory(null);
+        return this;
+    }
+
+    public void setCategories(Set<Course> courses) {
+        this.categories = courses;
     }
     // jhipster-needle-entity-add-getters-setters - Jhipster will add getters and setters here, do not remove
 

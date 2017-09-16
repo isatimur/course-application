@@ -1,10 +1,12 @@
 package xyz.isatimur.course.application.domain;
 
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Objects;
 
 /**
@@ -30,6 +32,10 @@ public class Author implements Serializable {
 
     @Column(name = "photo_url")
     private String photoUrl;
+
+    @OneToMany(mappedBy = "author")
+    @JsonIgnore
+    private Set<Course> courses = new HashSet<>();
 
     public Author(String name, String description, String photoUrl) {
         this.name = name;
@@ -83,6 +89,31 @@ public class Author implements Serializable {
 
     public void setPhotoUrl(String photoUrl) {
         this.photoUrl = photoUrl;
+    }
+
+    public Set<Course> getCourses() {
+        return courses;
+    }
+
+    public Author courses(Set<Course> courses) {
+        this.courses = courses;
+        return this;
+    }
+
+    public Author addCourse(Course course) {
+        this.courses.add(course);
+        course.setAuthor(this);
+        return this;
+    }
+
+    public Author removeCourse(Course course) {
+        this.courses.remove(course);
+        course.setAuthor(null);
+        return this;
+    }
+
+    public void setCourses(Set<Course> courses) {
+        this.courses = courses;
     }
     // jhipster-needle-entity-add-getters-setters - Jhipster will add getters and setters here, do not remove
 

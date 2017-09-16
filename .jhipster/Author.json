@@ -1,6 +1,13 @@
 {
     "fluentMethods": true,
-    "relationships": [],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "course",
+            "otherEntityName": "course",
+            "otherEntityRelationshipName": "author"
+        }
+    ],
     "fields": [
         {
             "fieldName": "name",
@@ -15,7 +22,7 @@
             "fieldType": "String"
         }
     ],
-    "changelogDate": "20170915151101",
+    "changelogDate": "20170916094637",
     "entityTableName": "author",
     "dto": "no",
     "pagination": "no",

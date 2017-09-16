@@ -7,7 +7,7 @@
             "fieldType": "String"
         }
     ],
-    "changelogDate": "20170915151058",
+    "changelogDate": "20170916094634",
     "entityTableName": "status",
     "dto": "no",
     "pagination": "no",

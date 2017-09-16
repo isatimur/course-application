@@ -6,7 +6,7 @@
     <!--
         Added the constraints for entity Material.
     -->
-    <changeSet id="20170915151103-2" author="jhipster">
+    <changeSet id="20170916094639-2" author="jhipster">
         
         <addForeignKeyConstraint baseColumnNames="content_type_id"
                                  baseTableName="material"

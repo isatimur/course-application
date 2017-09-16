@@ -1,6 +1,7 @@
 package xyz.isatimur.course.application.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -12,15 +13,20 @@ import java.util.Objects;
 /**
  * A Tag.
  */
+@NoArgsConstructor
 @Entity
-@Table(name = "tag")
+@Table(name = "course_data_tags")
 public class Tag implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
-    @SequenceGenerator(name = "sequenceGenerator")
+    @SequenceGenerator(
+        name = "course_data_tags_id_seq",
+        sequenceName = "course_data_tags_id_seq",
+        allocationSize = 1,
+        initialValue = 1000)
+    @GeneratedValue(generator = "course_data_tags_id_seq", strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @NotNull
@@ -31,6 +37,16 @@ public class Tag implements Serializable {
     @ManyToMany(mappedBy = "tags")
     @JsonIgnore
     private Set<Course> courses = new HashSet<>();
+
+    public Tag(String name, Set<Course> courses) {
+        this.name = name;
+        this.courses = courses;
+    }
+
+    public Tag(String name) {
+
+        this.name = name;
+    }
 
     // jhipster-needle-entity-add-field - Jhipster will add fields here, do not remove
     public Long getId() {

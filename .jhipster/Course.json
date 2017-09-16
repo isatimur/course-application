@@ -2,34 +2,40 @@
     "fluentMethods": true,
     "relationships": [
         {
+            "relationshipName": "category",
+            "otherEntityName": "category",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipName": "author",
+            "otherEntityName": "author",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        },
+        {
             "relationshipType": "one-to-one",
             "relationshipName": "status",
             "otherEntityName": "status",
-            "otherEntityField": "id",
+            "otherEntityField": "name",
             "ownerSide": true,
             "otherEntityRelationshipName": "course"
         },
         {
             "relationshipType": "one-to-one",
-            "relationshipName": "category",
-            "otherEntityName": "category",
-            "otherEntityField": "id",
+            "relationshipName": "contentType",
+            "otherEntityName": "contentType",
+            "otherEntityField": "name",
             "ownerSide": true,
             "otherEntityRelationshipName": "course"
         },
         {
-            "relationshipType": "one-to-one",
-            "relationshipName": "author",
-            "otherEntityName": "author",
-            "otherEntityField": "id",
-            "ownerSide": true,
-            "otherEntityRelationshipName": "course"
-        },
-        {
-            "relationshipType": "one-to-many",
+            "relationshipType": "many-to-many",
+            "otherEntityRelationshipName": "",
             "relationshipName": "material",
             "otherEntityName": "material",
-            "otherEntityRelationshipName": "course"
+            "otherEntityField": "id",
+            "ownerSide": true
         },
         {
             "relationshipType": "many-to-many",
@@ -74,7 +80,7 @@
             "fieldType": "String"
         }
     ],
-    "changelogDate": "20170915151102",
+    "changelogDate": "20170916094638",
     "entityTableName": "course",
     "dto": "no",
     "pagination": "infinite-scroll",

@@ -10,9 +10,9 @@ import org.springframework.boot.actuate.autoconfigure.MetricRepositoryAutoConfig
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
+import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import xyz.isatimur.course.application.config.ApplicationProperties;
 import xyz.isatimur.course.application.config.DefaultProfileUtil;
 import xyz.isatimur.course.application.domain.Author;
@@ -21,14 +21,14 @@ import xyz.isatimur.course.application.domain.ContentType;
 import xyz.isatimur.course.application.domain.Course;
 import xyz.isatimur.course.application.domain.Material;
 import xyz.isatimur.course.application.domain.Status;
+import xyz.isatimur.course.application.domain.Tag;
 import xyz.isatimur.course.application.repository.AuthorRepository;
 import xyz.isatimur.course.application.repository.CategoryRepository;
 import xyz.isatimur.course.application.repository.ContentTypeRepository;
 import xyz.isatimur.course.application.repository.CourseRepository;
 import xyz.isatimur.course.application.repository.MaterialRepository;
 import xyz.isatimur.course.application.repository.StatusRepository;
-import xyz.isatimur.course.application.service.dto.AuthorDTO;
-import xyz.isatimur.course.application.service.mapper.AuthorMapper;
+import xyz.isatimur.course.application.repository.TagRepository;
 
 import java.math.BigDecimal;
 import java.net.InetAddress;
@@ -44,6 +44,7 @@ import java.util.Set;
 import javax.annotation.PostConstruct;
 
 @ComponentScan
+@EnableSpringDataWebSupport
 @EnableAutoConfiguration(exclude = {MetricFilterAutoConfiguration.class, MetricRepositoryAutoConfiguration.class})
 @EnableConfigurationProperties({LiquibaseProperties.class, ApplicationProperties.class})
 public class CourseApplicationApp {
@@ -64,6 +65,8 @@ public class CourseApplicationApp {
     private ContentTypeRepository contentTypeRepository;
     @Autowired
     private AuthorRepository authorRepository;
+    @Autowired
+    private TagRepository tagRepository;
 
     public CourseApplicationApp(Environment env) {
         this.env = env;
@@ -92,8 +95,8 @@ public class CourseApplicationApp {
         ContentType contentType2 = new ContentType("PRESENTATION");
         contentTypeRepository.save(contentType1);
         contentTypeRepository.save(contentType2);
-        List<Material> materialSet = new ArrayList<>();
-        Material material = Material.builder()
+        Set<Material> materialSet = new HashSet<>();
+        Material material1 = Material.builder()
             .title("new material")
             .description("newMaterial description like detailed one")
             .duration(360000l)
@@ -101,9 +104,9 @@ public class CourseApplicationApp {
             .cdn("CDN1")
             .companyId(1l)
             .build();
-        materialRepository.save(material);
-        materialSet.add(material);
-        material = Material.builder()
+        materialRepository.save(material1);
+        materialSet.add(material1);
+        Material material2 = Material.builder()
             .title("2 new material")
             .description("2 newMaterial description like detailed one")
             .duration(360000l)
@@ -111,8 +114,8 @@ public class CourseApplicationApp {
             .cdn("CDN2")
             .companyId(1l)
             .build();
-        materialSet.add(material);
-        materialRepository.save(material);
+        materialSet.add(material2);
+        materialRepository.save(material2);
         Category category = new Category("Все курсы");
         categoryRepository.save(category);
         Status status = new Status("Не опубликовано");
@@ -122,6 +125,10 @@ public class CourseApplicationApp {
             "test.jpg");
         authorRepository.save(author);
 
+        Tag tag = new Tag("test");
+        tagRepository.save(tag);
+        Set<Tag> tags = new HashSet<>();
+        tags.add(tag);
         Course course = Course.builder()
             .url("leader-as-key-to-success" + System.currentTimeMillis())
             .title("Лидер как ключ к успеху")
@@ -131,7 +138,7 @@ public class CourseApplicationApp {
             .status(status)
             .author(author)
             .materials(materialSet)
-            .tags(null)
+            .tags(tags)
             .duration(10000l)
             .price(BigDecimal.ZERO)
             .logoUrl("/logo.gif")
@@ -171,3 +178,4 @@ public class CourseApplicationApp {
 
 
 }
+

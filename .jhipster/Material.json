@@ -2,16 +2,10 @@
     "fluentMethods": true,
     "relationships": [
         {
-            "relationshipName": "course",
-            "otherEntityName": "course",
-            "relationshipType": "many-to-one",
-            "otherEntityField": "id"
-        },
-        {
             "relationshipType": "one-to-one",
             "relationshipName": "contentType",
             "otherEntityName": "contentType",
-            "otherEntityField": "id",
+            "otherEntityField": "name",
             "ownerSide": true,
             "otherEntityRelationshipName": "material"
         }
@@ -38,7 +32,7 @@
             "fieldType": "String"
         }
     ],
-    "changelogDate": "20170915151103",
+    "changelogDate": "20170916094639",
     "entityTableName": "material",
     "dto": "no",
     "pagination": "pagination",
