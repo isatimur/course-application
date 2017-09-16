@@ -1,0 +1,46 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "course",
+            "otherEntityName": "course",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "one-to-one",
+            "relationshipName": "contentType",
+            "otherEntityName": "contentType",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "material"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "title",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "description",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "duration",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "companyId",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "cdn",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20170915151103",
+    "entityTableName": "material",
+    "dto": "no",
+    "pagination": "pagination",
+    "service": "no"
+}

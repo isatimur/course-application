@@ -1,0 +1,82 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "relationshipName": "status",
+            "otherEntityName": "status",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "course"
+        },
+        {
+            "relationshipType": "one-to-one",
+            "relationshipName": "category",
+            "otherEntityName": "category",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "course"
+        },
+        {
+            "relationshipType": "one-to-one",
+            "relationshipName": "author",
+            "otherEntityName": "author",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "course"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "material",
+            "otherEntityName": "material",
+            "otherEntityRelationshipName": "course"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityRelationshipName": "course",
+            "relationshipName": "tag",
+            "otherEntityName": "tag",
+            "otherEntityField": "name",
+            "ownerSide": true
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "url",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "title",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "shortDescription",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "description",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "duration",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "publishDate",
+            "fieldType": "ZonedDateTime"
+        },
+        {
+            "fieldName": "price",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "logoUrl",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20170915151102",
+    "entityTableName": "course",
+    "dto": "no",
+    "pagination": "infinite-scroll",
+    "service": "no"
+}

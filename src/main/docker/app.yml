@@ -1,0 +1,12 @@
+version: '2'
+services:
+    courseapplication-app:
+        image: courseapplication
+        environment:
+            - SPRING_PROFILES_ACTIVE=prod,swagger
+            - SPRING_DATASOURCE_URL=jdbc:postgresql://courseapplication-postgresql:5432/CourseApplication
+            - JHIPSTER_SLEEP=10 # gives time for the database to boot before the application
+    courseapplication-postgresql:
+        extends:
+            file: postgresql.yml
+            service: courseapplication-postgresql

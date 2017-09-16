@@ -1,0 +1,23 @@
+{
+    "fluentMethods": true,
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "description",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "photoUrl",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20170915151101",
+    "entityTableName": "author",
+    "dto": "no",
+    "pagination": "no",
+    "service": "serviceImpl"
+}
